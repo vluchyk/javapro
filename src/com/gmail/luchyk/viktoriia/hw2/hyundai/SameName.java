@@ -1,11 +1,13 @@
 package com.gmail.luchyk.viktoriia.hw2.hyundai;
 
 import com.gmail.luchyk.viktoriia.hw2.Car;
+import com.gmail.luchyk.viktoriia.hw2.Employee;
 
 public class SameName extends Car {
     private static final String BRAND = "Hyundai";
-    public SameName(String color) {
-        super(BRAND, color);
+
+    public SameName(String color, Employee employee) {
+        super(BRAND, color, employee);
     }
 
     public void checkList() {

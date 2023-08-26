@@ -13,6 +13,7 @@ public class Main {
             System.out.print("Specify the second string: ");
             String secondText = scanner.nextLine();
             if (Solution.isAnagram(firstText, secondText)) {
+//            if (Solution2.isAnagram(firstText, secondText)) {
                 System.out.println("The two strings are anagram of each other.");
             } else {
                 System.out.println("The two strings are not anagram of each other.");

@@ -23,9 +23,37 @@ public class Solution {
         if (isNotEmpty(text)) {
             char[] array = text.toCharArray();
             Arrays.sort(array);
+            //quickSort(array, 0, array.length - 1);
             return new String(array);
         } else {
             return text;
+        }
+    }
+
+    public static void quickSort(char[] array, int first, int last) {
+        int left = first;
+        int right = last;
+        int pivot = array[(left + right) / 2];
+        while (left <= right) {
+            while (array[left] < pivot) {
+                left++;
+            }
+            while (array[right] > pivot) {
+                right--;
+            }
+            if (left <= right) {
+                char temp = array[left];
+                array[left] = array[right];
+                array[right] = temp;
+                left++;
+                right--;
+            }
+        }
+        if (first < right) {
+            quickSort(array, first, right);
+        }
+        if (left < last) {
+            quickSort(array, left, last);
         }
     }
 

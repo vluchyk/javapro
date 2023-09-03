@@ -6,7 +6,9 @@ public class Main {
                 new Circle(2.5),
                 new Triangle(1.3, 2.4, 3.5),
                 new Rectangle(3.2),
-                new Rectangle(2, 3)
+                new Rectangle(2, 3),
+                new Circle(1),
+                new Triangle(2, 2, 2)
         };
 
         calculateAreaTotal(figures);

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PhoneDirectory {
-    private static List<Record> records;
+    private List<Record> records;
 
     public PhoneDirectory() {
         this.records = new ArrayList<>();
@@ -22,7 +22,7 @@ public class PhoneDirectory {
         this.records.add(record);
     }
 
-    public static void find(String fullName) {
+    public void find(String fullName) {
         String foundPhone = "";
         for (Record record : records) {
             if (record.getFullName().equalsIgnoreCase(fullName)) {
@@ -37,7 +37,7 @@ public class PhoneDirectory {
         }
     }
 
-    public static void findAll(String fullName) {
+    public void findAll(String fullName) {
         List<String> foundPhones = new ArrayList<>();
         for (Record record : records) {
             if (record.getFullName().equalsIgnoreCase(fullName)) {

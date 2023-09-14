@@ -4,17 +4,17 @@ public class Main {
     public static void main(String[] args) {
         PhoneDirectory phoneDirectory = new PhoneDirectory();
         fill(phoneDirectory);
-        PhoneDirectory.find("John Smith");
-        PhoneDirectory.findAll("John Smith");
+        phoneDirectory.find("John Smith");
+        phoneDirectory.findAll("John Smith");
         System.out.println();
-        PhoneDirectory.find("Tom Black");
-        PhoneDirectory.findAll("Tom Black");
+        phoneDirectory.find("Tom Black");
+        phoneDirectory.findAll("Tom Black");
         System.out.println();
-        PhoneDirectory.find("Ann Barton");
-        PhoneDirectory.findAll("Ann Barton");
+        phoneDirectory.find("Ann Barton");
+        phoneDirectory.findAll("Ann Barton");
         System.out.println();
-        PhoneDirectory.find("Tom Smith");
-        PhoneDirectory.findAll("Tom Smith");
+        phoneDirectory.find("Tom Smith");
+        phoneDirectory.findAll("Tom Smith");
     }
 
     private static void fill(PhoneDirectory phoneDirectory) {

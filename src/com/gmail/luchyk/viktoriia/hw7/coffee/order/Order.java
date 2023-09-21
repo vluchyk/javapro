@@ -3,7 +3,7 @@ package com.gmail.luchyk.viktoriia.hw7.coffee.order;
 public class Order {
     private final int orderNumber;
     private final String fullName;
-    private static int orderCount = 0;
+    private static int orderCount;
 
     public Order(String fullName) {
         orderCount++;
@@ -23,10 +23,4 @@ public class Order {
     public String toString() {
         return orderNumber + " | " + fullName;
     }
-/*
-    @Override
-    public int compareTo(Order o) {
-        return this.orderNumber - o.orderNumber;
-    }
- */
 }

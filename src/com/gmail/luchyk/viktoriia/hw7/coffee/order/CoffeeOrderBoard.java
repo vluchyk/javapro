@@ -13,21 +13,33 @@ public class CoffeeOrderBoard {
 
     public void deliver() {
         Order order = this.orders.poll();
-        if (order != null) {
-            System.out.printf("Order %d | %s has been delivered.\n", order.getOrderNumber(), order.getFullName());
+        if (order == null) {
+            System.out.println("The queue is empty.");
+        } else {
+            System.out.printf("Order %d - %s has been delivered.\n", order.getOrderNumber(), order.getFullName());
         }
     }
 
     public void deliver(int orderNumber) {
         Order order;
         int size = this.orders.size();
-        for (int i = 0; i < size; i++) {
-            order = this.orders.poll();
-            if (order != null) {
-                if (order.getOrderNumber() != orderNumber)
-                    this.orders.add(order);
-                else
-                    System.out.printf("Order %d | %s has been delivered.\n", order.getOrderNumber(), order.getFullName());
+        if (size == 0) {
+            System.out.println("The queue is empty.");
+        } else {
+            boolean isFound = false;
+            for (int i = 0; i < size; i++) {
+                order = this.orders.poll();
+                if (order != null) {
+                    if (order.getOrderNumber() == orderNumber) {
+                        System.out.printf("Order %d - %s has been delivered.\n", order.getOrderNumber(), order.getFullName());
+                        isFound = true;
+                    } else {
+                        this.orders.add(order);
+                    }
+                }
+            }
+            if (!isFound) {
+                System.out.printf("The order number %d is incorrect.\n", orderNumber);
             }
         }
     }
@@ -35,12 +47,16 @@ public class CoffeeOrderBoard {
     public void draw() {
         Order order;
         int size = this.orders.size();
-        System.out.println("Order Number | Full Name");
-        for (int i = 0; i < size; i++) {
-            order = this.orders.poll();
-            if (order != null) {
-                System.out.println(order);
-                this.orders.add(order);
+        if (size == 0) {
+            System.out.println("The queue is empty.");
+        } else {
+            System.out.println("# | Full Name");
+            for (int i = 0; i < size; i++) {
+                order = this.orders.poll();
+                if (order != null) {
+                    System.out.println(order);
+                    this.orders.add(order);
+                }
             }
         }
     }

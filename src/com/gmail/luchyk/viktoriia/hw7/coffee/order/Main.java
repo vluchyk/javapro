@@ -28,5 +28,13 @@ public class Main {
         board.add("Rebeka Klarkson");
         board.draw();
         System.out.println();
+
+        board.deliver(9);
+        board.deliver(4);
+        board.deliver(6);
+        board.deliver();
+        board.deliver();
+        board.deliver();
+        board.deliver();
     }
 }

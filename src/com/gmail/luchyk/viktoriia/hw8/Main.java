@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
-        List<Product> products = getProducts();
+        List<Product> products = getData();
 
         System.out.println("___ Input data: ___");
         printInfo(products);
@@ -29,7 +29,7 @@ public class Main {
         printInfo(lastNCreated(products, 3));
         System.out.println();
 
-        totalPrice(products, 2023, "Book", 200);
+        totalPrice(products, 2023, "Book", 75);
         System.out.println();
 
         System.out.println(groupByType(products));
@@ -41,23 +41,26 @@ public class Main {
         }
     }
 
-    private static List<Product> byTypeByPrice(List<Product> products, String type, double price) {
-        System.out.printf("___ Result of Type = %s, price > %.2f: ___\n", type, price);
+    private static List<Product> byTypeByPrice(List<Product> products, String type, double minPrice) {
+        System.out.printf("___ Result of Type = %s, price > %.2f: ___\n", type, minPrice);
         return products.stream()
                 .filter(t -> t.getType().equalsIgnoreCase(type))
-                .filter(p -> p.getPrice() > price)
+                .filter(p -> p.getPrice() > minPrice)
                 .collect(Collectors.toList());
     }
 
     private static List<Product> byTypeWithDiscount(List<Product> products, String type, int percentage) {
-        System.out.printf("___ Result of Type = %s, with discount = %d: ___\n", type, percentage);
+        System.out.printf("___ Result of Type = %s, with discount = %d%%: ___\n", type, percentage);
         return products.stream()
                 .filter(t -> t.getType().equalsIgnoreCase(type))
                 .filter(Product::isDiscount)
+                /*
                 .map(product -> {
                     product.setPrice(product.getPrice() - product.getPrice() * percentage / 100);
                     return product;
                 })
+                */
+                .peek(product -> product.setPrice(product.getPrice() - product.getPrice() * percentage / 100))
                 .collect(Collectors.toList());
     }
 
@@ -71,21 +74,24 @@ public class Main {
                 .ifPresentOrElse(System.out::println, () -> System.out.printf("The product %s is not found.\n", type));
     }
 
-    private static List<Product> lastNCreated(List<Product> products, int count) {
-        System.out.printf("___ Result of last %d created products: ___\n", count);
+    private static List<Product> lastNCreated(List<Product> products, int lastN) {
+        System.out.printf("___ Result of last %d created products: ___\n", lastN);
         return products.stream()
                 .sorted(Comparator.comparing(Product::getCreated).reversed())
-                .limit(count)
+                .limit(lastN)
                 .collect(Collectors.toList());
     }
 
-    private static void totalPrice(List<Product> products, int year, String type, double price) {
-        System.out.printf("___ Result of total price created in %d of Type = %s, and price > %.2f:  ___\n", year, type, price);
+    private static void totalPrice(List<Product> products, int year, String type, double maxPrice) {
+        System.out.printf("___ Result of total price created in %d of Type = %s, and price <= %.2f:  ___\n", year, type, maxPrice);
         double result = products.stream()
                 .filter(d -> d.getCreated().getYear() == year)
                 .filter(t -> t.getType().equalsIgnoreCase(type))
-                .filter(p -> p.getPrice() > price)
-                .collect(Collectors.summingDouble(Product::getPrice));
+                .filter(p -> p.getPrice() <= maxPrice)
+                .mapToDouble(Product::getPrice)
+                .sum();
+        //.collect(Collectors.summingDouble(Product::getPrice));
+
         System.out.printf("Total Price: %.2f.\n", result);
     }
 
@@ -95,7 +101,7 @@ public class Main {
                 .collect(Collectors.groupingBy(Product::getType));
     }
 
-    private static List<Product> getProducts() {
+    private static List<Product> getData() {
         List<Product> products = new ArrayList<>();
         products.add(new Product.Builder()
                 .withId(100001)
@@ -130,6 +136,42 @@ public class Main {
                 .withPrice(325)
                 .withDiscount(true)
                 .withCreated(LocalDate.parse("2023-03-03"))
+                .build()
+        );
+
+        products.add(new Product.Builder()
+                .withId(100005)
+                .withType("Book")
+                .withPrice(65)
+                .withDiscount(true)
+                .withCreated(LocalDate.parse("2022-04-27"))
+                .build()
+        );
+
+        products.add(new Product.Builder()
+                .withId(100006)
+                .withType("Notebook")
+                .withPrice(55)
+                .withDiscount(false)
+                .withCreated(LocalDate.parse("2023-01-25"))
+                .build()
+        );
+
+        products.add(new Product.Builder()
+                .withId(100007)
+                .withType("Book")
+                .withPrice(35)
+                .withDiscount(false)
+                .withCreated(LocalDate.parse("2023-02-25"))
+                .build()
+        );
+
+        products.add(new Product.Builder()
+                .withId(100008)
+                .withType("Book")
+                .withPrice(50)
+                .withDiscount(true)
+                .withCreated(LocalDate.parse("2023-03-17"))
                 .build()
         );
 

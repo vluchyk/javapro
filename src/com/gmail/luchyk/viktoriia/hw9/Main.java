@@ -52,7 +52,6 @@ public class Main {
         int result = 0;
         try {
             result = ArrayValueCalculator.doCalc(data);
-
         } catch (ArraySizeException e) {
             System.out.printf("Incorrect size of the array. Should be %dx%d.\n", ArrayValueCalculator.SIZE, ArrayValueCalculator.SIZE);
         } catch (ArrayDataException e) {

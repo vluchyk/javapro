@@ -14,7 +14,6 @@ public class ArrayValueCalculator {
             verify(data);
         } catch (ArraySizeException e) {
             System.out.printf("Incorrect size of the array. Should be %dx%d.\n", SIZE, SIZE);
-            return result;
         }
 
         try {
@@ -22,7 +21,6 @@ public class ArrayValueCalculator {
         } catch (ArrayDataException e) {
             System.out.println("Incorrect value in the array. Only numbers should be used.");
             System.out.println(e);
-            return result;
         }
 
         return result;

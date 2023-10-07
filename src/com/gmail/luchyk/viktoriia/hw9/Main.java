@@ -2,8 +2,8 @@ package com.gmail.luchyk.viktoriia.hw9;
 
 public class Main {
     public static void main(String[] args) {
-        doCalcTest();
-//        doCalculationTest();
+//        doCalcTest();
+        doCalculationTest();
     }
 
     private static void doCalcTest() {

@@ -1,5 +1,7 @@
 package com.gmail.luchyk.viktoriia.hw10;
 
+import com.gmail.luchyk.viktoriia.hw10.exceptions.BookNotFoundException;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
@@ -24,36 +26,42 @@ public class Statistics {
         return result;
     }
 
-    public void nMostPopularWords(int topN) throws IOException {
-//        Stream<String> lines = this.source.read();
-        this.source.verify();
-        FileReader fileReader = new FileReader(this.source);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        Stream<String> lines = bufferedReader.lines();
-
-        Map<String, Long> grouped = lines.flatMap(line -> Arrays.stream(line.split("\\b")))
-                .filter(word -> word.length() > 2)
-                .collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()));
-//        System.out.println(grouped);
-//        System.out.println("Size: " + grouped.size());
-
-        List<Map.Entry<String, Long>> mostPopular = grouped.entrySet().stream()
-                .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
-                .limit(topN)
-                .collect(Collectors.toList());
-
-        System.out.println("Most popular words: ".toUpperCase());
-        System.out.println(mostPopular);
-        System.out.println("Unique word count: ".toUpperCase() + grouped.size());
-
-        FileWriter fileWriter = new FileWriter(this.result, true);
-        fileWriter.write("Most popular words: ".toUpperCase() + "\n");
-        for (Map.Entry<String, Long> element : mostPopular) {
-            fileWriter.write(element.getKey() + " -> " + element.getValue() + "\n");
+    public void nMostPopularWords(int topN) {
+        try {
+            this.source.verify();
+        } catch (BookNotFoundException e) {
+            System.out.println(e);
         }
-        fileWriter.write("Unique word count: ".toUpperCase() + grouped.size() + "\n");
-        fileWriter.close();
 
-        bufferedReader.close();
+        try (FileReader fileReader = new FileReader(this.source);
+             BufferedReader bufferedReader = new BufferedReader(fileReader)
+        ) {
+            Stream<String> lines = bufferedReader.lines();
+
+            Map<String, Long> words = lines.flatMap(line -> Arrays.stream(line.split("\\b")))
+                    .filter(word -> word.length() > 2)
+                    .collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()));
+//          System.out.println(words);
+//          System.out.println("Size: " + words.size());
+
+            List<Map.Entry<String, Long>> mostPopular = words.entrySet().stream()
+                    .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
+                    .limit(topN)
+                    .collect(Collectors.toList());
+
+            System.out.println("Most popular words: ".toUpperCase());
+            System.out.println(mostPopular);
+            System.out.println("Unique word count: ".toUpperCase() + words.size());
+
+            FileWriter fileWriter = new FileWriter(this.result, true);
+            fileWriter.write("Most popular words: ".toUpperCase() + "\n");
+            for (Map.Entry<String, Long> element : mostPopular) {
+                fileWriter.write(element.getKey() + " -> " + element.getValue() + "\n");
+            }
+            fileWriter.write("Unique word count: ".toUpperCase() + words.size() + "\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("The book is either missing or damaged. Please check.");
+        }
     }
 }

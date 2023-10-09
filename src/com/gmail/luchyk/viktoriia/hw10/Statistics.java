@@ -39,12 +39,12 @@ public class Statistics {
             Stream<String> lines = bufferedReader.lines();
 
             Map<String, Long> words = lines.flatMap(line -> Arrays.stream(line.split("\\b")))
-                    .filter(word -> word.length() > 2)
                     .collect(Collectors.groupingBy(String::toLowerCase, Collectors.counting()));
 //          System.out.println(words);
 //          System.out.println("Size: " + words.size());
 
             List<Map.Entry<String, Long>> mostPopular = words.entrySet().stream()
+                    .filter(word -> word.getKey().length() > 2)
                     .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
                     .limit(topN)
                     .collect(Collectors.toList());

@@ -11,12 +11,13 @@ public class Main {
 
     public static void main(String[] args) {
         String answer;
+        int topN = 10;
         do {
             Book source = get();
             File result = put();
 
             Statistics data = new Statistics(source, result);
-            data.nMostPopularWords(10);
+            data.nMostPopularWords(topN);
 
             System.out.println("Again? Y/N:");
             answer = scanner.nextLine();
